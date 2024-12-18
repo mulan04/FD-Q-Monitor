@@ -1,17 +1,18 @@
 # FD-Q-Monitor
 FreshDesk Q Monitor
 
-A sound is played if the response contains valid tickets
+A sound is played if the response contains valid tickets<br>
 (The idea is to auto-scan the monitored Qs every 60s for new/unassigned tickets)
 
 # Base URL
-FD Dev:		https://aquasecuritysandbox.freshdesk.com
+FD Dev:		https://aquasecuritysandbox.freshdesk.com<br>
 FD Prod:	https://aquasecurity.freshdesk.com
 
 # api_key
 FD / Upper Right Icon / Profile Settings / View API Key
 
 # Groups
+```[bash]
 "APAC": 16000086007,
 "APAC - Tier 2": 16000088977,
 "APAC - Tier 3": 16000088978,
@@ -28,18 +29,22 @@ FD / Upper Right Icon / Profile Settings / View API Key
 "POC": 16000086229,
 "Support": 16000074458,
 "Warranty": 16000088209
-
+```
 
 #To run the script
+```[bash]
 sudo dnf install python3-pip  # Ensure pip is installed
 pip3 install requests
 pip3 install kivy
 
 python3 main.py
+```
 
 Ensure the file AztecSkullWhistle.wav exists in the same folder as the script
 
 
 # To build an APK:
+```[bash]
 podman run -it -v $HOME/.buildozer:/home/user/.buildozer -v $(pwd):/home/user/hostcwd --entrypoint bash docker.io/mulan04/buildozer:latest
 buildozer android debug
+```
