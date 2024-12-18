@@ -1,17 +1,16 @@
-# FD-Q-Monitor
-FreshDesk Q Monitor
-
+# FreshDesk Q Monitor
 A sound is played if the response contains valid tickets<br>
 (The idea is to auto-scan the monitored Qs every 60s for new/unassigned tickets)
 
 # Base URL
-FD Dev:		https://aquasecuritysandbox.freshdesk.com<br>
-FD Prod:	https://aquasecurity.freshdesk.com
+FD Prod:	https://aquasecurity.freshdesk.com<br>
+FD Dev:		https://aquasecuritysandbox.freshdesk.com
 
 # api_key
 FD / Upper Right Icon / Profile Settings / View API Key
 
-# Groups
+# Groups 
+FD Prod
 ```[bash]
 "APAC": 16000086007,
 "APAC - Tier 2": 16000088977,
