@@ -31,7 +31,7 @@ FD / Upper Right Icon / Profile Settings / View API Key
 "Warranty": 16000088209
 ```
 
-#To run the script
+# To run the script
 ```[bash]
 sudo dnf install python3-pip  # Ensure pip is installed
 pip3 install requests
