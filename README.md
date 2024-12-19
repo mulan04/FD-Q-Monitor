@@ -1,6 +1,6 @@
 # FreshDesk Q Monitor
 A sound is played if the response contains valid tickets<br>
-(The idea is to auto-scan the monitored Qs every 60s for new/unassigned tickets)
+(The idea is to auto-scan the monitored Qs every 60s for new/unassigned tickets in the specified groups)
 
 # Base URL
 FD Prod:	https://aquasecurity.freshdesk.com<br>

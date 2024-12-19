@@ -10,16 +10,15 @@ from kivy.core.audio import SoundLoader  # For sound playback
 import os
 
 # Authentication credentials
-api_key = "k5uOq8ARGQr1nhfNmdUw"
+api_key = "WxV92Y3pTigom5UCzmmc"
 password = "X"  # Typically, this is 'X' for Freshdesk API
 
 # Base URL
-url = "https://aquasecuritysandbox.freshdesk.com/api/v2/search/tickets"
+url = "https://aquasecurity.freshdesk.com/api/v2/search/tickets"
 
 # Declare IDs as variables
-group_ids = [1016000088975, 1016000088976]
-agent_id = 1016037235621
-# agent_id = "null"
+group_ids = [16000085997, 16000088975, 16000088976, 16000086229, 16000074458]
+agent_id = 16000620846   # "Support Team"
 
 # Configurable query interval (in seconds)
 QUERY_INTERVAL = 60  # Interval for querying Freshdesk in seconds
@@ -27,9 +26,9 @@ QUERY_INTERVAL = 60  # Interval for querying Freshdesk in seconds
 # Sound file path
 sound_file = "AztecSkullWhistle.wav"
 
-# Construct the query dynamically
+# Construct the query dynamically to return all 'Open' and 'Unassigned' or owned by 'Support Team' tickets
 group_query = " OR ".join([f"group_id:{group_id}" for group_id in group_ids])
-query = f'"({group_query}) AND agent_id:{agent_id}"'
+query = f'"({group_query}) AND status:2 AND (agent_id:null OR agent_id:{agent_id})"'
 
 # URL parameters
 params = {"query": query}
