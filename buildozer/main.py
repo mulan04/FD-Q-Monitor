@@ -114,3 +114,4 @@ if __name__ == "__main__":
         print(f"Error: Sound file '{sound_file}' not found!")
     else:
         TicketApp().run()
+
