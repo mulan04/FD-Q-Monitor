@@ -40,7 +40,7 @@ jobs:
           ls -lR *
           podman run -v $HOME/.buildozer:/home/user/.buildozer -v $(pwd):/home/user/hostcwd kivy/buildozer android debug
           ls -lR ~/buildozer/bin/*
-          mv ~/buildozer/bin/* ~/dist/
+          cp ~/buildozer/bin/* ~/dist/
           ls -lR ~/dist/
 
       - name: Upload the binary to the release
