@@ -36,6 +36,8 @@ jobs:
       - name: Build the APK binary
         run: |
           mkdir -p dist
+          cd ~/buildozer
+          ls -lR *
           podman run -v $HOME/.buildozer:/home/user/.buildozer -v $(pwd):/home/user/hostcwd kivy/buildozer android debug
           ls -R ~/buildozer/bin/*
           mv ~/buildozer/bin/* dist/
