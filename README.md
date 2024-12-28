@@ -53,3 +53,8 @@ buildozer android debug
 git tag -a v0.1 -m "Release version 0.1"
 git push --tags
 ```
+or in the WebUI
+- https://github.com/mulan04/<repo>/releases/new
+- enter a new Tag name
+- click on "Create new tag: <new Tag> on publish"
+- click on "Publish Release"
