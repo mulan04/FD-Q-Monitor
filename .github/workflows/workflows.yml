@@ -18,9 +18,9 @@ jobs:
       - name: Checkout source code
         uses: actions/checkout@v3
 
-      - name: Ja wo laufn se denn
-        run: |
-          pwd ; ls -l ; echo $HOME
+      # - name: Ja wo laufn se denn
+        # run: |
+          # pwd ; ls -l ; echo $HOME
 
       - name: Init buildozer
         run: |
