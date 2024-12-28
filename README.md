@@ -39,7 +39,7 @@ pip3 install kivy
 python3 main.py
 ```
 
-Ensure the file AztecSkullWhistle.wav exists in the same folder as the script
+Ensure the file AztecSkullWhistle.wav is in the same folder as the script and the FD API Key is set in the script
 
 
 # To build an APK:
