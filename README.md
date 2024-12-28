@@ -55,6 +55,7 @@ git push --tags
 ```
 or in the WebUI
 - https://github.com/mulan04/\<repo\>/releases/new
+- `https://github.com/mulan04/<repo>/releases/new`
 - enter a new Tag name
 - click on "Create new tag: \<new Tag\> on publish"
 - click on "Publish Release"
