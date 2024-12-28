@@ -10,8 +10,7 @@ from kivy.core.audio import SoundLoader  # For sound playback
 import os
 
 # Authentication credentials
-# api_key = "<My-FD-APIkey>"
-api_key = "WxV92Y3pTigom5UCzmmc"
+api_key = "<My-FD-APIkey>"
 password = "X"  # Typically, this is 'X' for Freshdesk API
 
 # Base URL
