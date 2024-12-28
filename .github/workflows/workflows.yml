@@ -1,0 +1,93 @@
+name: Build and Release
+
+on:
+  push:
+    tags:
+      - 'v*' # Trigger on tags starting with "v"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Build buildozer
+        run: |
+          git clone https://github.com/kivy/buildozer.git
+          cd buildozer/
+          podman buildx build --platform=linux/amd64 -t kivy/buildozer .
+
+      - name: Checkout source code
+        uses: actions/checkout@v3
+        run: |
+          pwd ; ls -l
+
+      - name: Init buildozer
+        run: |
+          mkdir -p ~/.buildozer
+          # mkdir -p ~/buildozer
+          # chmod 777 ~/.buildozer
+          # chmod 777 ~/buildozer
+          # cd ~/buildozer
+          # podman run -v $HOME/.buildozer:/home/user/.buildozer -v $(pwd):/home/user/hostcwd kivy/buildozer init
+          # sudo chown "$(id -u)":"$(id -g)" *
+
+      - name: Build the APK binary
+        run: |
+          podman run -v $HOME/.buildozer:/home/user/.buildozer -v $(pwd):/home/user/hostcwd kivy/buildozer android debug
+          mkdir -p dist
+          echo "Hello, world!" > dist/hello-world.txt # Replace with your actual build steps
+          cd dist
+          tar -czvf hello.world.tar.Z hello-world.txt
+
+      - name: Upload the binary to the release
+        uses: actions/upload-artifact@v3
+        with:
+          name: binary
+          path: dist/
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download binary artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: binary
+
+      - name: test
+        run: |
+          ls -lR .
+  
+      - name: Create GitHub Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref_name }}
+          release_name: Release ${{ github.ref_name }}
+          body: |
+            This release contains the following files:
+            - `hello-world.txt`
+            - `hello.world.tar.Z`
+          draft: false
+          prerelease: false
+
+      - name: Upload zip to release
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: hello-world.txt
+          asset_name: hello-world.txt
+          asset_content_type: text/plain
+          
+      - name: Upload Z to release
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: hello.world.tar.Z
+          asset_name: hello.world.tar.Z
+          asset_content_type: application/zip          
