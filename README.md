@@ -47,3 +47,9 @@ Ensure the file AztecSkullWhistle.wav exists in the same folder as the script
 podman run -it -v $HOME/.buildozer:/home/user/.buildozer -v $(pwd):/home/user/hostcwd --entrypoint bash docker.io/mulan04/buildozer:latest
 buildozer android debug
 ```
+
+# To trigger the workflow:
+```[bash]
+git tag -a v0.1 -m "Release version 0.1"
+git push --tags
+```
