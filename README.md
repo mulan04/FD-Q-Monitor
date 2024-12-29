@@ -59,3 +59,5 @@ or in the WebUI
 - enter a new Tag name
 - click on "Create new tag: \<new Tag\> on publish"
 - click on "Publish Release"
+- delete this release immediately
+- else delete this release upon failure of the "release" job and re-run this job only
