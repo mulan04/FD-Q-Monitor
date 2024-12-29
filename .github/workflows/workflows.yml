@@ -20,7 +20,7 @@ jobs:
 
       # - name: Ja wo laufn se denn
         # run: |
-          # pwd ; ls -l ; echo $HOME
+          # pwd ; ls -l ; echo $HOME ; echo ${{ github.workspace }}
 
       - name: Init buildozer
         run: |
@@ -31,7 +31,7 @@ jobs:
           cd ~/buildozer
           podman run -v $HOME/.buildozer:/home/user/.buildozer -v $(pwd):/home/user/hostcwd kivy/buildozer init
           sudo chown "$(id -u)":"$(id -g)" *
-          cp -r /home/runner/work/FD-Q-Monitor/FD-Q-Monitor/buildozer/* ~/buildozer/
+          cp -r ${{ github.workspace }}/buildozer/* ~/buildozer/
 
       - name: Build the APK binary
         run: |
