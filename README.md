@@ -49,6 +49,7 @@ buildozer android debug
 ```
 
 # To trigger the workflow:
+make sure the workflow has 'Read and write permissions'
 ```[bash]
 git tag -a v0.1 -m "Release version 0.1"
 git push --tags
