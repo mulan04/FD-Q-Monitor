@@ -9,11 +9,11 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      # - name: Build buildozer
-        # run: |
-          # git clone https://github.com/kivy/buildozer.git
-          # cd buildozer/
-          # podman buildx build --platform=linux/amd64 -t kivy/buildozer .
+      - name: Build buildozer
+        run: |
+          git clone https://github.com/kivy/buildozer.git
+          cd buildozer/
+          podman buildx build --platform=linux/amd64 -t kivy/buildozer .
 
       - name: Checkout source code
         uses: actions/checkout@v3
@@ -22,33 +22,32 @@ jobs:
         run: |
           sed -i "s|<My-FD-APIkey>|${{ secrets.FD_API_KEY }}|g" ${{ github.workspace }}/buildozer/main.py
 
-      - name: Ja wo laufn se denn
+      # - name: Ja wo laufn se denn
+        # run: |
+          # pwd ; ls -l ; echo $HOME ; echo ${{ github.workspace }}
+          # cat ${{ github.workspace }}/buildozer/main.py
+          # mkdir -p ~/dist ; cp ${{ github.workspace }}/buildozer/main.py ~/dist/
+
+      - name: Init buildozer
         run: |
-          pwd ; ls -l ; echo $HOME ; echo ${{ github.workspace }}
-          cat ${{ github.workspace }}/buildozer/main.py
-          mkdir -p ~/dist ; cp ${{ github.workspace }}/buildozer/main.py ~/dist/
+          mkdir -p ~/.buildozer
+          mkdir -p ~/buildozer
+          chmod 777 ~/.buildozer
+          chmod 777 ~/buildozer
+          cd ~/buildozer
+          podman run -v $HOME/.buildozer:/home/user/.buildozer -v $(pwd):/home/user/hostcwd kivy/buildozer init
+          sudo chown "$(id -u)":"$(id -g)" *
+          cp -r ${{ github.workspace }}/buildozer/* ~/buildozer/
 
-
-      # - name: Init buildozer
-        # run: |
-          # mkdir -p ~/.buildozer
-          # mkdir -p ~/buildozer
-          # chmod 777 ~/.buildozer
-          # chmod 777 ~/buildozer
-          # cd ~/buildozer
-          # podman run -v $HOME/.buildozer:/home/user/.buildozer -v $(pwd):/home/user/hostcwd kivy/buildozer init
-          # sudo chown "$(id -u)":"$(id -g)" *
-          # cp -r ${{ github.workspace }}/buildozer/* ~/buildozer/
-
-      # - name: Build the APK binary
-        # run: |
-          # cd ~/buildozer
-          # ls -lR *
-          # podman run -v $HOME/.buildozer:/home/user/.buildozer -v $(pwd):/home/user/hostcwd kivy/buildozer android debug
-          # ls -lR ~/buildozer/bin/*
-          # mkdir -p ~/dist
-          # cp ~/buildozer/bin/* ~/dist/
-          # ls -lR ~/dist/
+      - name: Build the APK binary
+        run: |
+          cd ~/buildozer
+          ls -lR *
+          podman run -v $HOME/.buildozer:/home/user/.buildozer -v $(pwd):/home/user/hostcwd kivy/buildozer android debug
+          ls -lR ~/buildozer/bin/*
+          mkdir -p ~/dist
+          cp ~/buildozer/bin/* ~/dist/
+          ls -lR ~/dist/
 
       - name: Upload the binary to the release
         uses: actions/upload-artifact@v4
@@ -86,22 +85,12 @@ jobs:
           draft: false
           prerelease: false
 
-      # - name: Upload apk to release
-        # uses: actions/upload-release-asset@v1
-        # env:
-          # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        # with:
-          # upload_url: ${{ steps.create_release.outputs.upload_url }}
-          # asset_path: qmonitor-0.1-arm64-v8a_armeabi-v7a-debug.apk
-          # asset_name: qmonitor-0.1-arm64-v8a_armeabi-v7a-debug.apk
-          # asset_content_type: application/zip  
-          
       - name: Upload apk to release
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: main.py
-          asset_name: main.py
-          asset_content_type: text/plain         
+          asset_path: qmonitor-0.1-arm64-v8a_armeabi-v7a-debug.apk
+          asset_name: qmonitor-0.1-arm64-v8a_armeabi-v7a-debug.apk
+          asset_content_type: application/zip           
