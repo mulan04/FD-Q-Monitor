@@ -2,8 +2,8 @@ name: Build and Release
 
 on:
   push:
-    tags:
-      - 'v*' # Trigger on tags starting with "v"
+    # tags:
+      # - 'v*' # Trigger on tags starting with "v"
 
 jobs:
   build:
