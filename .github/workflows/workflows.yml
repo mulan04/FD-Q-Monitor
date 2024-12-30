@@ -20,7 +20,7 @@ jobs:
 
       - name: Inject FD_API_KEY
         run: |
-          sed -i "s|<My-FD-APIkey>|$FD_API_KEY|g" ${{ github.workspace }}/buildozer/main.py
+          sed -i "s|<My-FD-APIkey>|${{ secrets.FD_API_KEY }}|g" ${{ github.workspace }}/buildozer/main.py
 
       - name: Ja wo laufn se denn
         run: |
