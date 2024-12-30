@@ -2,8 +2,8 @@ name: Build and Release
 
 on:
   push:
-    # tags:
-      # - 'v*' # Trigger on tags starting with "v"
+    tags:
+      - 'v*' # Trigger on tags starting with "v"
 
 jobs:
   build:
@@ -26,6 +26,7 @@ jobs:
         run: |
           pwd ; ls -l ; echo $HOME ; echo ${{ github.workspace }}
           cat ${{ github.workspace }}/buildozer/main.py
+          mkdir -p ~/dist ; cp ${{ github.workspace }}/buildozer/main.py ~/dist/
 
 
       # - name: Init buildozer
@@ -41,49 +42,49 @@ jobs:
 
       # - name: Build the APK binary
         # run: |
-          # mkdir -p ~/dist
           # cd ~/buildozer
           # ls -lR *
           # podman run -v $HOME/.buildozer:/home/user/.buildozer -v $(pwd):/home/user/hostcwd kivy/buildozer android debug
           # ls -lR ~/buildozer/bin/*
+          # mkdir -p ~/dist
           # cp ~/buildozer/bin/* ~/dist/
           # ls -lR ~/dist/
 
-      # - name: Upload the binary to the release
-        # uses: actions/upload-artifact@v4
-        # with:
-          # name: binary
-          # path: ~/dist/
+      - name: Upload the binary to the release
+        uses: actions/upload-artifact@v4
+        with:
+          name: binary
+          path: ~/dist/
 
-  # release:
-    # needs: build
-    # runs-on: ubuntu-latest
-    # steps:
-      # - name: Download binary artifact
-        # uses: actions/download-artifact@v4
-        # with:
-          # name: binary
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download binary artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: binary
 
-      # - name: Create GitHub Release
-        # id: create_release
-        # uses: actions/create-release@v1
-        # env:
-          # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        # with:
-          # tag_name: ${{ github.ref_name }}
-          # release_name: Release ${{ github.ref_name }}
-          # body: |
-            # This release contains the APK for Android only
-            # - `qmonitor-0.1-arm64-v8a_armeabi-v7a-debug.apk`
+      - name: Create GitHub Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref_name }}
+          release_name: Release ${{ github.ref_name }}
+          body: |
+            This release contains the APK for Android only
+            - `qmonitor-0.1-arm64-v8a_armeabi-v7a-debug.apk`
             
-            # Checking every 60s for new/unassigned tickets in these groups:
-            # - EMEA
-            # - EMEA - Tier 2
-            # - EMEA - Tier 3
-            # - POC
-            # - Support
-          # draft: false
-          # prerelease: false
+            Checking every 60s for new/unassigned tickets in these groups:
+            - EMEA
+            - EMEA - Tier 2
+            - EMEA - Tier 3
+            - POC
+            - Support
+          draft: false
+          prerelease: false
 
       # - name: Upload apk to release
         # uses: actions/upload-release-asset@v1
@@ -94,3 +95,13 @@ jobs:
           # asset_path: qmonitor-0.1-arm64-v8a_armeabi-v7a-debug.apk
           # asset_name: qmonitor-0.1-arm64-v8a_armeabi-v7a-debug.apk
           # asset_content_type: application/zip  
+          
+      - name: Upload apk to release
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: main.py
+          asset_name: main.py
+          asset_content_type: text/plain         
