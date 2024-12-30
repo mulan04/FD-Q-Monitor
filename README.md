@@ -49,7 +49,8 @@ buildozer android debug
 ```
 
 # To trigger the workflow:
-make sure the workflow has 'Read and write permissions'
+- make sure the workflow has 'Read and write permissions'
+- put your FreshDesk API Key in https://github.com/mulan04/FD-Q-Monitor/settings/secrets/actions/FD_API_KEY
 ```[bash]
 git tag -a v0.1 -m "Release version 0.1"
 git push --tags
